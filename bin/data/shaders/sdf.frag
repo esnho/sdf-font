@@ -3,7 +3,7 @@
 uniform sampler2DRect tex0;
 uniform vec2 windowSize;
 
-const float smoothing = 1.0/16.0;
+uniform float smoothing = 1.0/16.0;
 
 // https://github.com/libgdx/libgdx/wiki/Distance-field-fonts
 // https://github.com/w8r/sdf-text-glyph-by-glyph
