@@ -27,6 +27,7 @@ void ofApp::draw(){
     shader.setUniformTexture("tex0", SDFtexture, 0);
     shader.setUniform2f("windowSize", ofGetWindowWidth(), ofGetWindowHeight());
     shader.setUniform1f("smoothing", smooth / 16.0);
+    shader.setUniform1f("time", ofGetElapsedTimef());
 
     // draw
     SDFtexture.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
