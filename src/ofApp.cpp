@@ -2,14 +2,14 @@
 #include "utility.h"
 #include "defaults.h"
 
-const string fonts[] = {"fonts/arialblack.png", "fonts/myanmar-mn.png"};
+const string fonts[] = {"fonts/suffer.jpg", "fonts/war.jpg"};
 
 //--------------------------------------------------------------
 void ofApp::setup(){
     gui.setup();
     gui.add(smooth.setup("smooth", DEFAULT_SMOOTH, MIN_SMOOTH, MAX_SMOOTH));
     gui.add(fader.setup("fader", 0, 0, 1));
-    gui.add(zoom.setup("zoom", 0, 0, 10));
+    gui.add(zoom.setup("zoom", 0.3, 0.1, 1));
 
     shader.load("shaders/sdf.vert", "shaders/sdf.frag");
     SDFfont[0].load(fonts[0]);

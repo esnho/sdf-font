@@ -25,8 +25,12 @@ void main()
     vec3 changingColor = vec3(r, g, b);
     vec3 white = vec3(1.0, 1.0, 1.0);
 
-    float d1 = texture2DRect(tex0, vec2(gl_FragCoord.x, windowSize.y - gl_FragCoord.y) * zoom).a;
-    float d2 = texture2DRect(tex1, vec2(gl_FragCoord.x, windowSize.y - gl_FragCoord.y) * zoom).a;
+    vec4 img1 = texture2DRect(tex0, vec2(gl_FragCoord.x, windowSize.y - gl_FragCoord.y) * zoom);
+
+    vec4 img2 = texture2DRect(tex1, vec2(gl_FragCoord.x, windowSize.y - gl_FragCoord.y) * zoom);
+
+    float d1 = 0.2126*img1.r + 0.7152*img1.g + 0.0722*img1.b;
+    float d2 = 0.2126*img2.r + 0.7152*img2.g + 0.0722*img2.b;
 
     float d = mix(d1, d2, fader);
 

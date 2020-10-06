@@ -8,7 +8,7 @@
 #ifndef defaults_h
 #define defaults_h
 
-const float MIN_SMOOTH = 1.0;
+const float MIN_SMOOTH = 0.0;
 const float MAX_SMOOTH = 10.0;
 const float DEFAULT_SMOOTH = 1.0;
 
