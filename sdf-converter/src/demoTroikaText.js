@@ -35,14 +35,14 @@ function initTroikaDemo() {
   camera = new PerspectiveCamera( 70, width / height, 0.01, 10 );
   
   const zoom = 1000;
-  camera = new OrthographicCamera(
+  /* camera = new OrthographicCamera(
     width * -0.5 * zoom,
     width * 0.5 * zoom,
     height * 0.5 * zoom,
     height * -0.5 * zoom,
     0.01,
     10000
-  );
+  ); */
   camera.position.z = 1;
 
 	scene = new Scene();
