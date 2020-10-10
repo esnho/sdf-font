@@ -1,10 +1,14 @@
-function component() {
-  const element = document.createElement('div');
+import { demoTinySDF } from './demoTinySDF';
+import { initTroikaDemo } from './demoTroikaText';
 
-  // Lodash, currently included via a script, is required for this line to work
-  element.innerHTML = ['Hello', 'webpack'].join(" ");
-
-  return element;
+function addTitle(title) {
+  const h1 = document.createElement('h1');
+  h1.innerText = title;
+  document.body.appendChild(h1);
 }
 
-document.body.appendChild(component());
+document.body.style.backgroundColor = 'gray';
+addTitle('Tiny SDF');
+demoTinySDF();
+addTitle('Troika + ThreeJS');
+initTroikaDemo();

@@ -13,5 +13,10 @@
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "@mapbox/tiny-sdf": "^1.1.1",
+    "three": "^0.121.1",
+    "troika-three-text": "^0.33.1"
   }
 }
