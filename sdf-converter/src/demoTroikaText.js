@@ -17,6 +17,7 @@ myText.text = 'where are you?'
 myText.debugSDF = true;
 myText.textAlign = 'center';
 myText.anchorX = 'center';
+myText.anchorY = 'middle';
 myText.fontSize = 0.2
 myText.position.z = -2
 myText.color = 0xFFFFFF
@@ -26,23 +27,25 @@ myText.sync()
 
 let camera, scene, renderer, controls;
 let geometry, material, mesh;
+let zoom = 1;
+
+const width = 1280;
+const height = 720;
+
+const ratio = width / height;
 
 function initTroikaDemo() {
 
-  const width = 400;
-  const height = 400;
-
   camera = new PerspectiveCamera( 70, width / height, 0.01, 10 );
   
-  const zoom = 1000;
-  /* camera = new OrthographicCamera(
-    width * -0.5 * zoom,
-    width * 0.5 * zoom,
-    height * 0.5 * zoom,
-    height * -0.5 * zoom,
+  camera = new OrthographicCamera(
+    ratio * -0.5 * zoom,
+    ratio * 0.5 * zoom,
+    1 * 0.5 * zoom,
+    1 * -0.5 * zoom,
     0.01,
     10000
-  ); */
+  );
   camera.position.z = 1;
 
 	scene = new Scene();
@@ -51,7 +54,7 @@ function initTroikaDemo() {
 	material = new MeshNormalMaterial();
 
 	mesh = new Mesh( geometry, material );
-  scene.add( mesh );
+  // scene.add( mesh );
   scene.add(myText);
 
 	renderer = new WebGLRenderer( { antialias: true } );
@@ -66,10 +69,13 @@ function initTroikaDemo() {
 }
 
 let hasDebugged = false;
-
+let time = 0;
+const timeDebug = document.createElement('div');
+timeDebug.innerText = time;
+document.body.appendChild( timeDebug );
 function animate() {
 
-  if (myText._derivedMaterial.uniforms.uTroikaSDFTexture.value === null) {
+  if (myText._derivedMaterial === undefined || myText._derivedMaterial.uniforms.uTroikaSDFTexture.value === null) {
     controls.update();
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
@@ -87,6 +93,9 @@ function animate() {
   renderer.render( scene, camera );
   requestAnimationFrame( animate );
 
+  // camera.zoom = Math.sin(time) * 1000;
+  time += 0.005;
+  timeDebug.innerText = Math.sin(time);
   // renderer.render( scene, camera );
 
   // console.log(myText._derivedMaterial.uniforms.uTroikaSDFTexture);
