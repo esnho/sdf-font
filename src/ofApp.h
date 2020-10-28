@@ -23,8 +23,6 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
     ofShader shader;
-    ofImage SDFfont[2];
-    ofTexture SDFtexture[2];
     ofFbo fbo;
 
     ofxFloatSlider smooth;

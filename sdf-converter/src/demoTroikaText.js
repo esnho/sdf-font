@@ -11,23 +11,46 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const myText = new Text();
-// Set properties to configure:
-myText.text = 'where are you?'
-myText.debugSDF = true;
-myText.textAlign = 'center';
-myText.anchorX = 'center';
-myText.anchorY = 'middle';
-myText.fontSize = 0.2
-myText.position.z = -2
-myText.color = 0xFFFFFF
+const toChesterKallman =
+`Every eye must weep alone
+Till I Will be overthrown.
+But I Will can be removed,
+Not having sense enough
+To guard against I Know,
+But I will can be removed.
+Then all I's can meet and grow,
+I Am become I Love,
+I Have Not I Am Loved,
+Then all I's can meet and grow.
+Till I Will be overthrown
+Every eye must weep alone.`;
 
-// Update the rendering:
-myText.sync()
+const sentences = toChesterKallman.split('\n');
+console.log(sentences);
+
+let sentenceId = 0;
+
+const myText = new Text();
+setText(sentences[0]);
+
+function setText(text) {
+  // Set properties to configure:
+  myText.text = text;
+  myText.debugSDF = true;
+  myText.textAlign = 'center';
+  myText.anchorX = 'center';
+  myText.anchorY = 'middle';
+  myText.fontSize = 0.2;
+  myText.position.z = -2;
+  myText.color = 0xFFFFFF;
+
+  // Update the rendering:
+  myText.sync();
+}
 
 let camera, scene, renderer, controls;
 let geometry, material, mesh;
-let zoom = 1;
+let zoom = 1.8;
 
 const width = 1280;
 const height = 720;
@@ -57,7 +80,7 @@ function initTroikaDemo() {
   // scene.add( mesh );
   scene.add(myText);
 
-	renderer = new WebGLRenderer( { antialias: true } );
+	renderer = new WebGLRenderer( { antialias: true, preserveDrawingBuffer: true } );
 	renderer.setSize( width, height );
 	document.body.appendChild( renderer.domElement );
   
@@ -68,7 +91,7 @@ function initTroikaDemo() {
   animate();
 }
 
-let hasDebugged = false;
+let hasDraw = false;
 let time = 0;
 const timeDebug = document.createElement('div');
 timeDebug.innerText = time;
@@ -82,16 +105,27 @@ function animate() {
     return;
   }
   const image = myText._derivedMaterial.uniforms.uTroikaSDFTexture.value.image;
-  if (!hasDebugged) {
-    hasDebugged = true;
-    console.log(myText);
+  if (!hasDraw) {
+    saveFrame();
+    console.log(myText._derivedMaterial.uniforms.uTroikaSDFTexture.value.uuid);
+    hasDraw = true;
     drawDataTexture(image);
+    myText.addEventListener('synccomplete', () => {
+      // code to execute after sync completes...
+      /* const image = myText._derivedMaterial.uniforms.uTroikaSDFTexture.value.image;
+      drawDataTexture(image); */
+      renderer.render( scene, camera );
+      saveFrame();
+      setText(sentences[Math.min(++sentenceId, sentences.length-1)]);
+    });
+    setText(sentences[++sentenceId % sentences.length]);
   }
-	mesh.rotation.x += 0.01;
+  // requestAnimationFrame( animate );
+	/* mesh.rotation.x += 0.01;
 	mesh.rotation.y += 0.02;
   controls.update();
   renderer.render( scene, camera );
-  requestAnimationFrame( animate );
+  requestAnimationFrame( animate ); */
 
   // camera.zoom = Math.sin(time) * 1000;
   time += 0.005;
@@ -100,6 +134,14 @@ function animate() {
 
   // console.log(myText._derivedMaterial.uniforms.uTroikaSDFTexture);
 
+}
+
+function saveFrame() {
+  const dataUrl = renderer.domElement.toDataURL("image/png");
+  const imageDownload = document.createElement('a');
+  imageDownload.href = dataUrl;
+  imageDownload.download = String(sentenceId).padStart(3, '0') + '_' + sentences[sentenceId].replace(/ /g, '-').replace('?', '') + '.png'
+  // imageDownload.click();
 }
 
 function drawDataTexture(image) {
